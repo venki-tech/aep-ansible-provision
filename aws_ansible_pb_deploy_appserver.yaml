@@ -1,0 +1,24 @@
+- name: Deploy Code on App Server aws_u1
+  hosts: aws_u1
+  gather_facts: false
+  tasks:
+    - name: Copy Py file from local to u1 server
+      become: yes
+      copy:
+        src: mySqlDB.py
+        dest: /tmp/mySqlDB.py
+        mode: '0755'
+
+    - name: Copy Jar file from local to u1 server
+      become: yes
+      copy:
+        src: mysql-connector-java-5.1.49.jar
+        dest: /tmp/mysql-connector-java-5.1.49.jar
+        mode: '0755'
+
+    - name: Java class
+      become: yes
+      copy:
+        src: MySql.java
+        dest: /tmp/MySql.java
+        mode: '0755'

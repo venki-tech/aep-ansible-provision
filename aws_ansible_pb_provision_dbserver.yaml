@@ -1,0 +1,54 @@
+- name: Provision DB server aws_u2
+  hosts: aws_u2
+  gather_facts: false
+  vars:
+    packages:
+      - mysql-server
+      - python3-pymysql
+      - net-tools
+  tasks:
+    - name: Update all Ubuntu packages
+      become: yes
+      apt:
+        upgrade: "dist"
+
+    - name: Install mysql and other packages on u2
+      become: yes
+      apt:
+        update_cache: yes
+        name: "{{ packages }}"
+        state: present
+
+    - name: a - Ensure MySQL will listen on all ip interfaces (bind to 0.0.0.0)
+      become: yes
+      lineinfile:
+        dest: /etc/mysql/my.cnf
+        regexp: 'bind-address\s*=\s*127\.0\.0\.1\s*'
+        line: 'bind-address   = 0.0.0.0'
+        state: present
+        backrefs: yes
+
+    - name: b - Ensure MySQL will listen on all ip interfaces (bind to 0.0.0.0)
+      become: yes
+      lineinfile:
+        dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: 'bind-address\s*=\s*127\.0\.0\.1\s*'
+        line: 'bind-address   = 0.0.0.0'
+        state: present
+        backrefs: yes
+
+    - name: c - Update user id from mysql to root
+      become: yes
+      lineinfile:
+        dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: 'user\s*=\s*mysql\s*'
+        line: 'user    = root'
+        state: present
+        backrefs: yes
+
+    - name: Re-Start mysql service on u2
+      become: yes
+      service:
+        name: mysql
+        state: restarted
+        enabled: yes

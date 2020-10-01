@@ -1,0 +1,37 @@
+- name: Wait for the instances to come up and check ssh
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Wait for SSH to start
+    wait_for:
+      port: 22
+      timeout: 120
+    delegate_to: localhost
+
+  - name: Pause for 1 minutes for instance to come up
+    pause:
+      minutes: 1
+
+- name: Provision APP server aws_u1
+  hosts: aws_u1
+  gather_facts: false
+  vars:
+    packages:
+      - openjdk-8-jdk
+      - python3
+      - mysql-client
+      - python3-mysql.connector
+      - net-tools
+  tasks:
+    - name: Update all Ubuntu packages
+      become: yes
+      apt:
+        upgrade: "dist"
+
+    - name: Install all packages
+      become: yes
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        name: "{{ packages }}"
+        state: present
