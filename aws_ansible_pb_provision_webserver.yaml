@@ -1,0 +1,13 @@
+- name: Provision APP server aws_rhel1
+  hosts: aws_rhel1
+  tasks:
+  - name: Install apache packages
+    become: yes
+    yum:
+      name: httpd
+      state: present
+  - name: ensure httpd is running
+    become: yes
+    service:
+      name: httpd
+      state: started
