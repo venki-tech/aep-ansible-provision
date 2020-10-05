@@ -1,0 +1,53 @@
+- name: DB updates on u2
+  hosts: aws_u2
+  tasks:
+
+    - name: Create `/root/.my.cnf`  with root password credentials
+      become: yes
+      copy:
+        src: my.cnf
+        dest: /root/.my.cnf
+        owner: root
+        mode: 0600
+
+    - name: a - Ensure mysql root password is updated for localhost
+      become: yes
+      no_log: true
+      mysql_user:
+        name: root
+        host: 'localhost'
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        password: Passw0rd!23
+        priv: '*.*:ALL,GRANT'
+        check_implicit_admin: true
+
+    - name: b - Ensure mysql root user is present for all hosts % different to localhost!
+      become: yes
+      no_log: true
+      mysql_user:
+        name: root
+        host: '%'
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        password: Passw0rd!23
+        priv: '*.*:ALL,GRANT'
+        check_implicit_admin: true
+
+    - name: Copy sql file from local to mysql server
+      become: yes
+      copy:
+        src: db_emp_db.sql
+        dest: /tmp/db_emp_db.sql
+        mode: '0644'
+
+    - name: Create Database
+      become: yes
+      mysql_db:
+        name: db_emp_db
+        state: present
+
+    - name: Create DB table tbl_emp_db and insert items from SQL file.
+      become: yes
+      mysql_db:
+        name: db_emp_db
+        state: import
+        target: /tmp/db_emp_db.sql
