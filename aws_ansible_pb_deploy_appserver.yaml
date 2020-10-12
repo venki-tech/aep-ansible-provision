@@ -1,15 +1,15 @@
-- name: Deploy Code on App Server aws_u1
+- name: Deploy Code on App Servers
   hosts: awsdevubapp*
   gather_facts: false
   tasks:
-    - name: Copy Py file from local to u1 server
+    - name: Copy Py file from local to app server
       become: yes
       copy:
         src: mySqlDB.py
         dest: /tmp/mySqlDB.py
         mode: '0755'
 
-    - name: Copy Jar file from local to u1 server
+    - name: Copy Jar file from local to app server
       become: yes
       copy:
         src: mysql-connector-java-5.1.49.jar

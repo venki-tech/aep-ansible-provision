@@ -1,4 +1,4 @@
-- name: DB updates on u2
+- name: DB updates on db server
   hosts: awsdevubdb*
   tasks:
 

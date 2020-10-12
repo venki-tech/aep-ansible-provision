@@ -1,4 +1,4 @@
-- name: Provision DB server aws_u2
+- name: Provision DB server
   hosts: awsdevubdb*
   gather_facts: false
   vars:
@@ -12,7 +12,7 @@
       apt:
         upgrade: "dist"
 
-    - name: Install mysql and other packages on u2
+    - name: Install mysql and other packages on db server
       become: yes
       apt:
         update_cache: yes
@@ -46,7 +46,7 @@
         state: present
         backrefs: yes
 
-    - name: Re-Start mysql service on u2
+    - name: Re-Start mysql service on db server
       become: yes
       service:
         name: mysql

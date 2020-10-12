@@ -1,4 +1,4 @@
-- name: Provision APP server aws_rhel1
+- name: Provision WEB server
   hosts: awsdevrhweb*
   tasks:
   - name: Install apache packages
