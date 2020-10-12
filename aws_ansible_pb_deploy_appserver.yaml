@@ -1,5 +1,5 @@
 - name: Deploy Code on App Server aws_u1
-  hosts: aws_u1
+  hosts: awsdevubapp*
   gather_facts: false
   tasks:
     - name: Copy Py file from local to u1 server
