@@ -1,5 +1,5 @@
 - name: Provision DB server aws_u2
-  hosts: aws_u2
+  hosts: awsdevubdb*
   gather_facts: false
   vars:
     packages:

@@ -13,7 +13,7 @@
       minutes: 1
 
 - name: Provision APP server aws_u1
-  hosts: aws_u1
+  hosts: awsdevubapp*
   gather_facts: false
   vars:
     packages:

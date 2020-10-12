@@ -1,5 +1,5 @@
 - name: Provision APP server aws_rhel1
-  hosts: aws_rhel1
+  hosts: awsdevrhweb*
   tasks:
   - name: Install apache packages
     become: yes
