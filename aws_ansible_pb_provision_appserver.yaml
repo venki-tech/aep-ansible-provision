@@ -41,7 +41,7 @@
       become: yes
       apache2_module:
         state: present
-        name: wsgi
+        name: cgid
 
     - name: Re-Start apache2 service on APP server
       become: yes
@@ -49,3 +49,11 @@
         name: apache2
         state: restarted
         enabled: yes
+
+    - name: Copy hosts.template file to replace the /etc/hosts
+      become: yes
+      copy:
+        src: hosts.template
+        dest: /etc/hosts
+        owner: root
+        mode: 0644
