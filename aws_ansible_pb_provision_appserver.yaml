@@ -41,7 +41,7 @@
       become: yes
       apache2_module:
         state: present
-        name: wsgi
+        name: cgid
 
     - name: Re-Start apache2 service on APP server
       become: yes
