@@ -6,19 +6,5 @@
       become: yes
       copy:
         src: mySqlDB.py
-        dest: /tmp/mySqlDB.py
-        mode: '0755'
-
-    - name: Copy Jar file from local to app server
-      become: yes
-      copy:
-        src: mysql-connector-java-5.1.49.jar
-        dest: /tmp/mysql-connector-java-5.1.49.jar
-        mode: '0755'
-
-    - name: Java class
-      become: yes
-      copy:
-        src: MySql.java
-        dest: /tmp/MySql.java
+        dest: /usr/lib/cgi-bin/mySqlDB.py
         mode: '0755'

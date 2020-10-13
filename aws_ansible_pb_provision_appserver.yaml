@@ -22,6 +22,7 @@
       - mysql-client
       - python3-mysql.connector
       - net-tools
+      - apache2
   tasks:
     - name: Update all Ubuntu packages
       become: yes
@@ -35,3 +36,16 @@
         cache_valid_time: 3600
         name: "{{ packages }}"
         state: present
+
+    - name: Enable the cgi module to be able execute scripts on html 
+      become: yes
+      apache2_module:
+        state: present
+        name: wsgi
+
+    - name: Re-Start apache2 service on APP server
+      become: yes
+      service:
+        name: apache2
+        state: restarted
+        enabled: yes
