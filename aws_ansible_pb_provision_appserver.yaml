@@ -37,7 +37,7 @@
         name: "{{ packages }}"
         state: present
 
-    - name: Enable the cgi module to be able execute scripts on html 
+    - name: Enable the cgi module to be able execute scripts on html
       become: yes
       apache2_module:
         state: present
